@@ -1,23 +1,23 @@
 'use strict'
 const db = {
-  'users': [
-    { 'id': 1, 'name': 'Axel' },
+  users: [
+    { id: '1', name: 'Axel' },
   ],
 };
 
 const list = async (table) => db[table];
 
-const get = (table, id) => {
-  const list = list(table);
-  return list.filter(item => item.id === id)[0] || null;
+const get = async (table, id) => {
+  const results = await list(table);
+  return results.filter(item => item.id === id) || [];
 }
 
-const upsert = (table, data) => {
+const upsert = async (table, data) => {
   db[table].push(data);
   return true;
 }
 
-const remove = (table, id) => true;
+const remove = async (table, id) => true;
 
 module.exports = {
   list,

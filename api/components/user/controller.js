@@ -8,8 +8,10 @@ module.exports = function (storeDependency) {
   const store = !storeDependency ? require('../../../store/dummy') : storeDependency
 
   const list = () => store.list(TABLE);
+  const get = (id) => store.get(TABLE, id);
 
   return {
-    list
+    list,
+    get
   };
 }
