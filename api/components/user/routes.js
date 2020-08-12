@@ -1,12 +1,15 @@
 'use strict'
-const express = require('express');
-const response = require('../../../network/response');
-const Controller = require('./controller');
-const router = express.Router();
+const express = require('express')
+const response = require('../../../network/response')
+const Controller = require('./index')
+const router = express.Router()
 
-router.get('/', function (req, res) {
-	const message = Controller.list();
-	response.success(req, res, message, 200);
-});
+router.get('/', (req, res) => {
+  const message = Controller.list()
+  response.success(req, res, message, 200)
+})
 
-module.exports = router;
+router.get('/:id', (req, res) => {
+})
+
+module.exports = router

@@ -5,7 +5,7 @@ const db = {
   ],
 };
 
-const list = table => db[table];
+const list = async (table) => db[table];
 
 const get = (table, id) => {
   const list = list(table);
