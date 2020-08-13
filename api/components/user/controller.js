@@ -1,3 +1,4 @@
+'use strict';
 const { nanoid } = require('nanoid');
 const auth = require('../auth');
 /**
@@ -8,16 +9,18 @@ const auth = require('../auth');
  */
 const TABLE = 'users';
 module.exports = function (storeDependency) {
-  const store = !storeDependency ? require('../../../store/dummy') : storeDependency
+  const store = !storeDependency
+    ? require('../../../store/dummy')
+    : storeDependency;
 
   const list = () => store.list(TABLE);
 
-  const get = id => store.get(TABLE, id);
+  const get = (id) => store.get(TABLE, id);
 
   const upsert = async (data) => {
     const user = {
       name: data.name,
-      username: data.username
+      username: data.username,
     };
 
     if (data.id) {
@@ -34,15 +37,15 @@ module.exports = function (storeDependency) {
         password: data.password,
       });
     }
-    return store.upsert(TABLE, user); 
+    return store.upsert(TABLE, user);
   };
 
-  const remove = id => store.remove(TABLE, id);
+  const remove = (id) => store.remove(TABLE, id);
 
   return {
     list,
     get,
     remove,
-    insert: upsert,
+    upsert,
   };
-}
+};
