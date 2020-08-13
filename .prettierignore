@@ -5,3 +5,4 @@ node_modules/
 .prettier.json
 package.json
 package-lock.json
+.eslintcache
