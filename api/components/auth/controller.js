@@ -1,5 +1,6 @@
 'use strict';
 const TABLE = 'auth';
+const auth = require('../../../auth');
 module.exports = function (storeDependency) {
   const store = !storeDependency
     ? require('../../../store/dummy')
@@ -11,7 +12,7 @@ module.exports = function (storeDependency) {
     //  Verify password
     if (userData.password === password) {
       // Return jwt token
-      return 'TOKEN';
+      return auth.sign(userData);
     } else {
       throw new Error('Verify your information');
     }
