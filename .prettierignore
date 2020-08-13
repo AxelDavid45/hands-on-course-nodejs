@@ -1,2 +1,7 @@
 .idea/
 node_modules/
+.eslintrc.json
+.gitignore
+.prettier.json
+package.json
+package-lock.json
