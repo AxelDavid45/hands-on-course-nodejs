@@ -13,11 +13,12 @@ const get = async (table, id) => {
 }
 
 const upsert = async (table, data) => {
+  if (!db[table]) {
+    db[table] = [];
+  }
   db[table].push(data);
-  return {
-    id: Math.floor(Math.random() * 100),
-    ...data,
-  };
+  console.log(db);
+  return data;
 }
 
 const remove = async (table, id) => true;

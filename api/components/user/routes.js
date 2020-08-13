@@ -23,7 +23,7 @@ function filterUser (req, res) {
 async function createUser (req, res) {
   try {
     const message = await Controller.insert(req.body);
-    response.success(req, res, message);
+    response.success(req, res, message, 201);
   } catch (err) {
     response.error(req, res, err.message, 400);
   }
