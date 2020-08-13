@@ -1,7 +1,6 @@
 'use strict'
 exports.success = function (req, res, message = 'ok', status = 200) {
 	res.status(status).send({
-		error: false,
 		status: status,
 		body: message
 	});
