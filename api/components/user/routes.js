@@ -1,12 +1,14 @@
 'use strict';
 const express = require('express');
+const checkAuthMiddleware = require('./secure');
 const response = require('../../../network/response');
 const Controller = require('./index');
 const router = express.Router();
 
 router.get('/', listUsers);
 router.get('/:id', filterUser);
-router.post('/', createUser);
+router.post('/', upsert);
+router.put('/', checkAuthMiddleware('update'), upsert);
 
 function listUsers(req, res) {
   Controller.list()
@@ -20,7 +22,7 @@ function filterUser(req, res) {
     .catch((err) => response.error(req, res, err.message));
 }
 
-async function createUser(req, res) {
+async function upsert(req, res) {
   try {
     const message = await Controller.upsert(req.body);
     response.success(req, res, message, 201);
