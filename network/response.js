@@ -1,10 +1,10 @@
-'use strict'
+'use strict';
 exports.success = function (req, res, message = 'ok', status = 200) {
   res.status(status).send({
     status: status,
-    body: message
-  })
-}
+    body: message,
+  });
+};
 
 exports.error = function (
   req,
@@ -15,6 +15,6 @@ exports.error = function (
   res.status(status).send({
     error: true,
     status: status,
-    body: message
-  })
-}
+    body: message,
+  });
+};
