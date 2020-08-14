@@ -1,6 +1,7 @@
 'use strict';
 const TABLE = 'auth';
 const auth = require('../../../auth');
+const bcrypt = require('bcrypt');
 module.exports = function (storeDependency) {
   const store = !storeDependency
     ? require('../../../store/dummy')
@@ -10,7 +11,8 @@ module.exports = function (storeDependency) {
     // Verify if the user exists in the db
     const userData = await store.query(TABLE, { username: username });
     //  Verify password
-    if (userData.password === password) {
+    const passwordMatch = await bcrypt.compare(password, userData.password);
+    if (passwordMatch) {
       // Return jwt token
       return auth.sign(userData);
     } else {
@@ -23,7 +25,7 @@ module.exports = function (storeDependency) {
    * @param data
    * @type {Object}
    */
-  function upsert(data) {
+  async function upsert(data) {
     const authData = {
       id: data.id,
     };
@@ -33,9 +35,12 @@ module.exports = function (storeDependency) {
     }
 
     if (data.password) {
-      authData.password = data.password;
+      try {
+        authData.password = await bcrypt.hash(data.password, 5);
+      } catch (e) {
+        throw new Error('Error saving password');
+      }
     }
-
     return store.upsert(TABLE, authData);
   }
 
