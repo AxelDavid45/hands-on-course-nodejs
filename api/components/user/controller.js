@@ -17,17 +17,12 @@ module.exports = function (storeDependency) {
 
   const get = (id) => store.get(TABLE, id);
 
-  const upsert = async (data) => {
+  const insert = async (data) => {
     const user = {
+      id: nanoid(),
       name: data.name,
       username: data.username,
     };
-
-    if (data.id) {
-      user.id = data.id;
-    } else {
-      user.id = nanoid();
-    }
 
     // Creates a new record in auth table
     if (data.password || data.username) {
@@ -37,7 +32,22 @@ module.exports = function (storeDependency) {
         password: data.password,
       });
     }
-    return store.upsert(TABLE, user);
+    return store.insert(TABLE, user);
+  };
+
+  const update = async (data) => {
+    const user = {};
+    if (data.username) {
+      user.username = data.username;
+    }
+
+    if (data.name) {
+      user.name = data.name;
+    }
+    if (data.password || data.username) {
+      // Update table auth
+    }
+    return store.update(TABLE, data);
   };
 
   const remove = (id) => store.remove(TABLE, id);
@@ -46,6 +56,7 @@ module.exports = function (storeDependency) {
     list,
     get,
     remove,
-    upsert,
+    insert,
+    update,
   };
 };

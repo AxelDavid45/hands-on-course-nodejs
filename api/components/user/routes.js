@@ -7,8 +7,8 @@ const router = express.Router();
 
 router.get('/', listUsers);
 router.get('/:id', filterUser);
-router.post('/', upsert);
-router.put('/', checkAuthMiddleware('update'), upsert);
+router.post('/', insert);
+router.put('/', checkAuthMiddleware('update'), update);
 
 function listUsers(req, res, next) {
   Controller.list()
@@ -22,13 +22,15 @@ function filterUser(req, res, next) {
     .catch(next);
 }
 
-async function upsert(req, res, next) {
+async function insert(req, res, next) {
   try {
-    const message = await Controller.upsert(req.body);
+    const message = await Controller.insert(req.body);
     response.success(req, res, message, 201);
   } catch (err) {
     next(err);
   }
 }
+
+async function update(req, res, next) {}
 
 module.exports = router;

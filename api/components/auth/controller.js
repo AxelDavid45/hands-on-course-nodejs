@@ -15,7 +15,7 @@ module.exports = function (storeDependency) {
     const passwordMatch = await bcrypt.compare(password, userData.password);
     if (passwordMatch) {
       // Return jwt token
-      return auth.sign(userData);
+      return auth.sign({ ...userData });
     } else {
       throw error('Verify your information', 401);
     }
@@ -42,7 +42,7 @@ module.exports = function (storeDependency) {
         throw error('Error saving password', 500);
       }
     }
-    return store.upsert(TABLE, authData);
+    return store.insert(TABLE, authData);
   }
 
   return {
