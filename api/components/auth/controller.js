@@ -26,7 +26,7 @@ module.exports = function (storeDependency) {
    * @param data
    * @type {Object}
    */
-  async function upsert(data) {
+  async function insert(data) {
     const authData = {
       id: data.id,
     };
@@ -45,8 +45,29 @@ module.exports = function (storeDependency) {
     return store.insert(TABLE, authData);
   }
 
+  async function update(data) {
+    const authData = {
+      id: data.id,
+    };
+
+    if (data.username) {
+      authData.username = data.username;
+    }
+
+    if (data.password) {
+      try {
+        authData.password = await bcrypt.hash(data.password, 5);
+      } catch (e) {
+        throw error('Error saving password', 500);
+      }
+    }
+
+    return store.update(TABLE, authData);
+  }
+
   return {
-    upsert,
+    insert,
     login,
+    update,
   };
 };

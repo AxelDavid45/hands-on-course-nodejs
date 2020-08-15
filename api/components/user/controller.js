@@ -23,10 +23,9 @@ module.exports = function (storeDependency) {
       name: data.name,
       username: data.username,
     };
-
     // Creates a new record in auth table
     if (data.password || data.username) {
-      await auth.upsert({
+      await auth.insert({
         id: user.id,
         username: user.username,
         password: data.password,
@@ -36,7 +35,10 @@ module.exports = function (storeDependency) {
   };
 
   const update = async (data) => {
-    const user = {};
+    const user = {
+      id: data.id,
+    };
+
     if (data.username) {
       user.username = data.username;
     }
@@ -44,9 +46,11 @@ module.exports = function (storeDependency) {
     if (data.name) {
       user.name = data.name;
     }
+
     if (data.password || data.username) {
-      // Update table auth
+      await auth.update(user);
     }
+
     return store.update(TABLE, data);
   };
 

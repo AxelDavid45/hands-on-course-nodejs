@@ -63,7 +63,7 @@ function update(table, data) {
       data,
       (err, result) => {
         if (err) return reject(err);
-        return resolve(result);
+        return resolve(data);
       }
     );
   });

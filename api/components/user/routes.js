@@ -31,6 +31,13 @@ async function insert(req, res, next) {
   }
 }
 
-async function update(req, res, next) {}
+async function update(req, res, next) {
+  try {
+    const message = await Controller.update(req.body);
+    response.success(req, res, message, 200);
+  } catch (err) {
+    next(err);
+  }
+}
 
 module.exports = router;
