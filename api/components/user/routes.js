@@ -10,24 +10,24 @@ router.get('/:id', filterUser);
 router.post('/', upsert);
 router.put('/', checkAuthMiddleware('update'), upsert);
 
-function listUsers(req, res) {
+function listUsers(req, res, next) {
   Controller.list()
     .then((message) => response.success(req, res, message))
-    .catch((err) => response.error(req, res, err.message));
+    .catch(next);
 }
 
-function filterUser(req, res) {
+function filterUser(req, res, next) {
   Controller.get(req.params.id)
     .then((message) => response.success(req, res, message))
-    .catch((err) => response.error(req, res, err.message));
+    .catch(next);
 }
 
-async function upsert(req, res) {
+async function upsert(req, res, next) {
   try {
     const message = await Controller.upsert(req.body);
     response.success(req, res, message, 201);
   } catch (err) {
-    response.error(req, res, err.message, 400);
+    next(err);
   }
 }
 

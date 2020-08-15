@@ -2,6 +2,7 @@
 const TABLE = 'auth';
 const auth = require('../../../auth');
 const bcrypt = require('bcrypt');
+const error = require('../../../utils/error');
 module.exports = function (storeDependency) {
   const store = !storeDependency
     ? require('../../../store/dummy')
@@ -16,7 +17,7 @@ module.exports = function (storeDependency) {
       // Return jwt token
       return auth.sign(userData);
     } else {
-      throw new Error('Verify your information');
+      throw error('Verify your information', 401);
     }
   }
 
@@ -38,7 +39,7 @@ module.exports = function (storeDependency) {
       try {
         authData.password = await bcrypt.hash(data.password, 5);
       } catch (e) {
-        throw new Error('Error saving password');
+        throw error('Error saving password', 500);
       }
     }
     return store.upsert(TABLE, authData);
