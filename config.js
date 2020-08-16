@@ -16,4 +16,7 @@ module.exports = {
     host: process.env.MYSQL_SRV_HOST || 'localhost',
     port: process.env.MYSQL_SRV_PORT || 3001,
   },
+  posts: {
+    port: process.env.POSTS_PORT || 3002,
+  },
 };
