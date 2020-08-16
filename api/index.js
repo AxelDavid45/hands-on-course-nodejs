@@ -4,6 +4,7 @@ const app = express();
 const config = require('../config');
 const user = require('./components/user/routes');
 const auth = require('./components/auth/routes');
+const post = require('./components/post/routes');
 const errorsMiddleware = require('../network/errors');
 // Parser
 app.use(express.json());
@@ -11,6 +12,7 @@ app.use(express.json());
 // Router
 app.use('/api/user', user);
 app.use('/api/auth', auth);
+app.use('/api/post', post);
 
 // Error Middleware
 app.use(errorsMiddleware);
