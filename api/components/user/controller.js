@@ -54,6 +54,25 @@ module.exports = function (storeDependency) {
     return store.update(TABLE, data);
   };
 
+  function follow(from, to) {
+    return store.insert(`${TABLE}_follow`, {
+      user_from: from,
+      user_to: to,
+    });
+  }
+
+  function followers(user) {
+    console.log(user);
+    const join = { users: 'user_to' };
+    return store.query(
+      `${TABLE}_follow`,
+      {
+        user_from: user,
+      },
+      join
+    );
+  }
+
   const remove = (id) => store.remove(TABLE, id);
 
   return {
@@ -62,5 +81,7 @@ module.exports = function (storeDependency) {
     remove,
     insert,
     update,
+    follow,
+    followers,
   };
 };

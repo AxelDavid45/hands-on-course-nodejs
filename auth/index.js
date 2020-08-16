@@ -2,6 +2,7 @@
 const jwt = require('jsonwebtoken');
 const config = require('../config');
 const error = require('../utils/error');
+
 function sign(payload) {
   return jwt.sign(payload, config.jwt.secret);
 }
@@ -14,7 +15,10 @@ const check = {
   own: function (request, userId) {
     const decoded = decodeToken(request);
     if (decoded.id !== userId) throw error('Access denied', 401);
-    console.log('Decoded', decoded);
+  },
+  logged: function (request) {
+    const decoded = decodeToken(request);
+    console.log(decoded);
   },
 };
 function getToken(authHeader) {

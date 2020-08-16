@@ -69,10 +69,14 @@ function update(table, data) {
   });
 }
 
-function query(table, query) {
+function query(table, query, join = '') {
   return new Promise((resolve, reject) => {
+    const joinKey = Object.keys(join)[0];
+    const value = join[joinKey];
+    console.log(joinKey, value);
+    const joinQuery = `INNER JOIN ${joinKey} ON ${joinKey}.id = ${table}.${value}`;
     connection.query(
-      `SELECT * FROM ${table} WHERE ?`,
+      `SELECT * FROM ${table} ${joinQuery} WHERE ?`,
       query,
       (err, results) => {
         if (err) return reject(err);

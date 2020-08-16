@@ -7,8 +7,10 @@ const router = express.Router();
 
 router.get('/', listUsers);
 router.get('/:id', filterUser);
+router.get('/:id/following', following);
 router.post('/', insert);
 router.put('/', checkAuthMiddleware('update'), update);
+router.post('/follow/:id', checkAuthMiddleware('follow'), follow);
 
 function listUsers(req, res, next) {
   Controller.list()
@@ -34,6 +36,24 @@ async function insert(req, res, next) {
 async function update(req, res, next) {
   try {
     const message = await Controller.update(req.body);
+    response.success(req, res, message, 200);
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function follow(req, res, next) {
+  try {
+    const message = await Controller.follow(req.user.id, req.params.id);
+    response.success(req, res, message, 201);
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function following(req, res, next) {
+  try {
+    const message = await Controller.followers(req.params.id);
     response.success(req, res, message, 200);
   } catch (err) {
     next(err);
