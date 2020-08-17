@@ -9,6 +9,6 @@ app.use(express.json());
 // Routes
 app.use('/', router);
 
-app.listen(config.mysqlService.port, () => {
-  console.log('Mysql service listening in port ', config.mysqlService.port);
+app.listen(config.cacheService.port, () => {
+  console.log('Listening in port ', config.cacheService.port);
 });
